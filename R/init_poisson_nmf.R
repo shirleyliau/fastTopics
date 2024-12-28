@@ -32,7 +32,7 @@
 init_poisson_nmf <-
   function (X, F, L, k, init.method = c("topicscore","random"),
             beta = 0.5, betamax = 0.99, control = list(), iter.max = 100,
-            verbose = c("detailed","none")) {
+            method = "Hartigan-Wong", verbose = c("detailed","none")) {
 
   # Check input X.
   verify.count.matrix(X)
@@ -87,7 +87,7 @@ init_poisson_nmf <-
       # Initialize the factors using the "Topic SCORE" algorithm.
       if (verbose == "detailed")
         cat("Initializing factors using Topic SCORE algorithm.\n")
-      F <- tryCatch(topic_score(X, k, iter.max),
+      F <- tryCatch(topic_score(X, k, iter.max, method),
                     error = function (e) {
                       warning("Topic SCORE failure occurred; falling back ",
                               "to init.method == \"random\"")
